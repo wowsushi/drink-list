@@ -1,8 +1,16 @@
 :root {
   --bg-default: #b6b6b6;
+  --bg-side-bar: #000000cc;
+  --bg-menu-item-active: #b6b6b6;
 }
 
 body {
   margin: 0;
   background-color: var(--bg-default);
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
