@@ -1,4 +1,5 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 defineProps({
   number: {
     type: Number
@@ -10,10 +11,38 @@ defineProps({
     type: String
   }
 })
+
+const move = () => {
+  let startx = 0
+  let endx = 300
+  let duration = 2000
+  let startTimeStamp = null
+
+  const inOutQuad = (n) => {
+    n *= 2
+    if (n < 1) return 0.5 * n * n
+    return -0.5 * (--n * (n - 2) - 1)
+  }
+
+  const draw = (nowTimeStamp) => {
+    if (nowTimeStamp - startTimeStamp >= duration) startTimeStamp = nowTimeStamp
+    const percentage = (nowTimeStamp - startTimeStamp) / duration
+    const value = inOutQuad(percentage)
+    const x = startx + (endx - startx) * value
+    ballRef.value.style.transform = `translateX(${x}px)`
+    requestAnimationFrame(draw)
+  }
+
+  requestAnimationFrame(draw)
+}
+const ballRef = ref(null)
+onMounted(() => {
+  move()
+})
 </script>
 
 <template>
-  <div class="ball">{{ number }}</div>
+  <div ref="ballRef" class="ball">{{ number }}</div>
 </template>
 
 <style scoped>
@@ -25,7 +54,7 @@ defineProps({
   line-height: 30px;
   text-align: center;
   position: absolute;
-  animation: move 2s infinite;
+  /* animation: move 2s infinite; */
 }
 
 .ball:first-child,
