@@ -13,7 +13,7 @@ import BallItem from './components/BallItem.vue'
       </template>
       <div class="ball-wrapper">
         <template v-for="index in 4" :key="index">
-          <BallItem :from="1" :to="3" :number="0" />
+          <BallItem :to="[180, 422]" :number="0" />
         </template>
       </div>
     </div>

@@ -1,20 +1,15 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-defineProps({
+const props = defineProps({
   number: {
     type: Number
   },
-  from: {
-    type: String
-  },
   to: {
-    type: String
+    type: Array
   }
 })
 
-const move = () => {
-  let startx = 0
-  let endx = 300
+const move = ({ startX, startY, endX, endY }) => {
   let duration = 2000
   let startTimeStamp = null
 
@@ -28,16 +23,35 @@ const move = () => {
     if (nowTimeStamp - startTimeStamp >= duration) startTimeStamp = nowTimeStamp
     const percentage = (nowTimeStamp - startTimeStamp) / duration
     const value = inOutQuad(percentage)
-    const x = startx + (endx - startx) * value
-    ballRef.value.style.transform = `translateX(${x}px)`
+    const x = startX + (endX - startX) * value
+    const y = startY + (endY - startY) * value
+    ballRef.value.style.left = x + 'px'
+    ballRef.value.style.top = y + 'px'
     requestAnimationFrame(draw)
   }
 
+  ballRef.value.style.position = 'fixed'
+  ballRef.value.style.left = startX + 'px'
+  ballRef.value.style.top = startY + 'px'
   requestAnimationFrame(draw)
 }
+
 const ballRef = ref(null)
 onMounted(() => {
-  move()
+  const ballPosition = (() => {
+    const rect = ballRef.value.getBoundingClientRect()
+    return {
+      x: rect.x,
+      y: rect.y
+    }
+  })()
+
+  move({
+    startX: ballPosition.x,
+    startY: ballPosition.y,
+    endX: props.to[0],
+    endY: props.to[1]
+  })
 })
 </script>
 
