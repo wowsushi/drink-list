@@ -32,9 +32,9 @@ const handleToggleMenu = () => {
 .nav {
   display: flex;
   background-color: white;
-  height: 40px;
+  height: var(--height-menu-bar);
   justify-content: right;
-  padding: 0.5rem;
+  padding: 0.25rem;
 }
 
 .aside-menu-wrapper {

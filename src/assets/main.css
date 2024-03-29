@@ -2,6 +2,11 @@
   --bg-default: #b6b6b6;
   --bg-side-bar: #000000cc;
   --bg-menu-item-active: #b6b6b6;
+  --height-menu-bar: 40px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
