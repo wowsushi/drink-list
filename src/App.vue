@@ -12,7 +12,7 @@ import BallItem from './components/BallItem.vue'
         <BoxItem :isFlicking="[3, 5, 9].includes(index)" />
       </template>
       <div class="ball-wrapper">
-        <template v-for="index in 4" :key="index">
+        <template v-for="index in 100" :key="index">
           <BallItem :to="[180, 422]" :number="0" />
         </template>
       </div>

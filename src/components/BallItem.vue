@@ -25,14 +25,11 @@ const move = ({ startX, startY, endX, endY }) => {
     const value = inOutQuad(percentage)
     const x = startX + (endX - startX) * value
     const y = startY + (endY - startY) * value
-    ballRef.value.style.left = x + 'px'
-    ballRef.value.style.top = y + 'px'
+    ballRef.value.style.transform = `translate(${x}px, ${y}px)`
     requestAnimationFrame(draw)
   }
 
-  ballRef.value.style.position = 'fixed'
-  ballRef.value.style.left = startX + 'px'
-  ballRef.value.style.top = startY + 'px'
+  ballRef.value.style.transform = `translate(${startX}px, ${startY}px)`
   requestAnimationFrame(draw)
 }
 
@@ -45,12 +42,19 @@ onMounted(() => {
       y: rect.y
     }
   })()
-
+  const startPosition = (() => {
+    const x = Math.random() * (window.innerWidth - 0) + 0
+    const y = Math.random() * (window.innerHeight - 0) + 0
+    return {
+      x,
+      y
+    }
+  })()
   move({
-    startX: ballPosition.x,
-    startY: ballPosition.y,
-    endX: props.to[0],
-    endY: props.to[1]
+    startX: startPosition.x - ballPosition.x,
+    startY: startPosition.y - ballPosition.y,
+    endX: props.to[0] - ballPosition.x,
+    endY: props.to[1] - ballPosition.y
   })
 })
 </script>
@@ -67,37 +71,7 @@ onMounted(() => {
   border-radius: 100%;
   line-height: 30px;
   text-align: center;
-  position: absolute;
-  /* animation: move 2s infinite; */
-}
-
-.ball:first-child,
-.ball:nth-child(2) {
-  top: 35px;
-}
-
-.ball:nth-child(3),
-.ball:nth-child(4) {
-  top: 245px;
-}
-
-.ball:first-child,
-.ball:nth-child(3) {
-  left: 45px;
-}
-
-.ball:nth-child(2),
-.ball:nth-child(4) {
-  left: 305px;
-}
-
-@keyframes move {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(300px);
-  }
+  position: fixed;
+  will-change: transform;
 }
 </style>
